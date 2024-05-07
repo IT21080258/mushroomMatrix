@@ -1,26 +1,43 @@
 import React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
 
-import { Container } from '@mui/material';
+import DemandBarChart from './DemandBarChart';
+import DemandPieChart from './DemandPieChart';
+import DemandAxisGridChart from './DemandAxisGridChart';
 
 const DemandPredicitionDashboard = () => {
 
-  const yearArray = ['', '2020', '2021', '2022', '2023'];
-
   return (
-    <Container>
-      <BarChart
-      series={[
-        { data: [35, 44, 24, 34] },
-        { data: [51, 6, 49, 30] },
-        { data: [15, 25, 30, 50] },
-        { data: [60, 50, 15, 25] },
-      ]}
-      height={290}
-      xAxis={[{ data: [yearArray[1], yearArray[2], yearArray[3], yearArray[4]], scaleType: 'band' }]}
-      margin={{ top: 10, bottom: 30, left: 300, right: 10 }}
-      />
-    </Container>
+    <div>
+
+      {
+      
+      /*
+      <div style={{ marginTop: 10, marginBottom : 30, marginLeft: 300, marginRight: 10 }}>
+        <DemandBarChart/>
+      </div>
+
+      <div style={{ marginTop: 10, marginBottom : 30, marginLeft: 350, marginRight: 10 }}>
+        <DemandPieChart/>
+      </div>
+
+      */
+
+      }
+
+      <div style={{ transform: 'translateX(8%) translateY(10%)' , width:'fitContent' , height:'fitContent' }}>
+        <DemandBarChart/>
+      </div>
+
+      <div style={{ transform: 'translateX(23%) translateY(16%)' }}>
+        <DemandAxisGridChart/>
+      </div>
+
+      <div style={{ transform: 'translateX(50%) translateY(-100%)' }}>
+        <DemandPieChart/>
+      </div>
+
+      
+    </div>
   );
 }
 

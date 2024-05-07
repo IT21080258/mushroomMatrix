@@ -15,12 +15,12 @@ import { Link } from 'react-router-dom';
 const DemandPredicitionLayout = ({ children }) => {
 
     const openLinkInSameTab = (url) => {
-        window.open(url, "_self");
+        //window.open(url, "_self");
       };
    
      const menuItems = [
        {
-           text: 'Damand Dashboard',
+           text: 'Demand Dashboard',
            icon: <GridViewOutlinedIcon color='secondary' />,
            path: '/demand-predicition-dashboard'
        },
@@ -77,6 +77,6 @@ const DemandPredicitionLayout = ({ children }) => {
            </div>
        </div>
      )
-   }
+}
 
 export default DemandPredicitionLayout;
