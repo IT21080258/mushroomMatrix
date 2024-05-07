@@ -12,11 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-
 
 function Copyright(props) {
   return (
@@ -35,7 +30,8 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function MushroomMatrixSignUp() {
+
+const MushroomMatrixSignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -136,3 +132,5 @@ export default function MushroomMatrixSignUp() {
     </ThemeProvider>
   );
 }
+
+export default MushroomMatrixSignUp;

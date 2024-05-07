@@ -9,48 +9,48 @@ import DemandPredicitionDashboard from '../components/demand-predicition-signed-
 import DemandPredicitionLayout from '../components/demand-predicition-signed-in/DemandPredicitionLayout';
 import DemandPredicitionProfile from '../components/demand-predicition-signed-in/DemandPredicitionProfile';
 
-export default function MushroomMatrixRoutes() {
+const MushroomMatrixRoutes = () => {
 
+  return (
+    <div>
 
-    return (
-      <div>
-  
+      <BrowserRouter>
+        <Routes>
+
+          <Route 
+          path='/' 
+          element = {<MushroomMatrixSignIn/>}
+          />
+
+          <Route 
+          path='/sign-in' 
+          element = {<MushroomMatrixSignIn/>}
+          />
+
+          <Route 
+          path='/sign-up' 
+          element = {<MushroomMatrixSignUp/>}
+          />
+
+        </Routes>
+
+      </BrowserRouter>
+      
+
+      {window.location.pathname.startsWith('/demand-predicition') && (
         <BrowserRouter>
-          <Routes>
-  
-            <Route 
-            path='/' 
-            element = {<MushroomMatrixSignIn/>}
-            />
-  
-            <Route 
-            path='/sign-in' 
-            element = {<MushroomMatrixSignIn/>}
-            />
-  
-            <Route 
-            path='/sign-up' 
-            element = {<MushroomMatrixSignUp/>}
-            />
-  
-          </Routes>
-  
+          <DemandPredicitionLayout>
+            <Routes>
+              <Route path="/demand-predicition-dashboard" element={<DemandPredicitionDashboard />} />
+              <Route path="/demand-predicition-profile" element={<DemandPredicitionProfile />} />
+            </Routes>
+          </DemandPredicitionLayout>
         </BrowserRouter>
-        
-  
-        {window.location.pathname.startsWith('/demand-predicition') && (
-          <BrowserRouter>
-            <DemandPredicitionLayout>
-              <Routes>
-                <Route path="/demand-predicition-dashboard" element={<DemandPredicitionDashboard />} />
-                <Route path="/demand-predicition-profile" element={<DemandPredicitionProfile />} />
-              </Routes>
-            </DemandPredicitionLayout>
-          </BrowserRouter>
-        )}
-        
-  
-      </div>
-    )
-  }
-  
+      )}
+      
+
+    </div>
+  )
+}
+
+export default MushroomMatrixRoutes;

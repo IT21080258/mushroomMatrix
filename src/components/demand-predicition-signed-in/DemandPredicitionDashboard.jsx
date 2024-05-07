@@ -3,7 +3,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 import { Container } from '@mui/material';
 
-export default function DemandPredicitionDashboard() {
+const DemandPredicitionDashboard = () => {
 
   const yearArray = ['', '2020', '2021', '2022', '2023'];
 
@@ -23,3 +23,5 @@ export default function DemandPredicitionDashboard() {
     </Container>
   );
 }
+
+export default DemandPredicitionDashboard;

@@ -30,7 +30,8 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function MushroomMatrixSignIn() {
+
+const MushroomMatrixSignIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -114,3 +115,5 @@ export default function MushroomMatrixSignIn() {
     </ThemeProvider>
   );
 }
+
+export default MushroomMatrixSignIn;

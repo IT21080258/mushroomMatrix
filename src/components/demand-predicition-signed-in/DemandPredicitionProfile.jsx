@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Container, Typography } from '@mui/material';
 
-export default function DemandPredicitionProfile() {
+
+
+const DemandPredicitionProfile = () => {
   return  (
     <div style={{ width: 'fit-content', height: 'fit-content', marginLeft: '18%' }}>
 
@@ -17,3 +19,5 @@ export default function DemandPredicitionProfile() {
     </div>
   )
 }
+
+export default DemandPredicitionProfile;
