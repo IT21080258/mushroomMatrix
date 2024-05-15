@@ -13,19 +13,54 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
+import axios from "axios";
+import { useState } from "react";
 
 const PredictYield = () =>  {
 
-    function createData(Date, growShed, tempIn, co2In, humidIn, tempOut, Co2Out, humidOut, Yield) {
-        return {Date, growShed, tempIn, co2In, humidIn, tempOut, Co2Out, humidOut, Yield};
-      }
-      const rows = [
-        createData('2024/05/05','GH1','32', '123', '135', '32', '123', '135', 500),
-        createData('2024/05/05','GH1','32', '123', '135', '32', '123', '135', 500),
-        createData('2024/05/05','GH2','32', '123', '135', '32', '123', '135', 500),
-        
-      ];
+    const [loading, setLoading] = useState(false);
+    const [prediction, setPrediction] = useState(null);
+
+    const [formData, setFormData] = useState({
+        Noofpots: "",
+        TempInside: "",
+        HumidInside: "",
+        CO2Inside: "",
+        TempOutside: "",
+        HumidOutside: "",
+        CO2Outside: ""
+      });
+
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+          // Store form data in local storage
+          localStorage.setItem("formData", JSON.stringify(formData));
+    
+          // Send form data to backend for prediction
+          const response = await axios.post("http://localhost:5000/yield/predict", formData);
+          setTimeout(() => {
+            setPrediction(response.data.prediction);
+            setLoading(false);
+        }, 2000);
+        } catch (error) {
+          
+          setTimeout(() => {
+            console.error("Prediction error:", error);
+        }, 2000);
+          // Handle error responses
+        }
+      };
+
+    
     
 return(
     <Grid>
@@ -36,18 +71,19 @@ return(
             <hr/>
         </div>
         <div>
-            <form style={{width:'400px'}}>
+            <form style={{width:'400px'}} onSubmit={handleSubmit}>
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Growshed Code" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="Noofpots" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Date" 
                 variant="outlined" 
                 color="secondary" 
@@ -56,70 +92,80 @@ return(
                 style={{margin: '8px 0px 0px', width:'200px'}}
             /><br/>
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Tempreture Inside" 
                 variant="outlined" 
                 color="secondary" 
+                name="TempInside"
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="CO2 Inside" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="CO2Inside" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Humidity Inside" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="HumidInside" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             /><br/>
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Tempreture Outside" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="TempOutside" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="CO2 Outside" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="CO2Outside" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <TextField 
-                // onChange={(e) => setCode(e.target.value)}
+                onChange={handleChange}
                 label="Humidity Outside" 
                 variant="outlined" 
-                color="secondary" 
+                color="secondary"
+                name="HumidOutside" 
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
             />
             <Button variant="contained" style={{Margin:'30px 0px 0px',
                                                 width: '400px'                        
-                                                                        }}>
-            Submit
+                                                                        }}
+                    onClick={handleSubmit}                                                    >
+            {loading ? <CircularProgress size={24} /> : "Submit"}
             </Button>
-
+            
             </form>
+            {prediction && (
+                <Alert severity="success">{`Prediction: ${prediction}`}</Alert>
+            )}
         </div><br/>
         <hr/>
         
-        <Grid xs={12}>
+        {/* <Grid xs={12}>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table" style={{width:'100%'}}>
                 <TableHead>
@@ -156,7 +202,7 @@ return(
                 </TableBody>
                 </Table>
             </TableContainer>
-        </Grid>
+        </Grid> */}
     </Grid>
 )
 }
