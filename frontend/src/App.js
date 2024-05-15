@@ -1,17 +1,16 @@
-// when creating functions start with capital letter
-// use const Function = () => 
-// export default Function; to export functions
-
 import React from 'react';
 import AppDrawer from './components/sidebar/appdrawer';
-import Routes from './routes/routes';
+import MRoutes from './routes/routes';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
-    return (
-        <AppDrawer>
-            <Routes />
-        </AppDrawer>
-    );
-}
+const App = () => {
+  return (
+    <Router>
+    <AppDrawer>
+      <MRoutes />
+    </AppDrawer>
+    </Router>
+  );
+};
 
 export default App;
