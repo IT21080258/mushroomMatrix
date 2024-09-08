@@ -18,7 +18,8 @@ const AppDrawer = ({ children }) => {
     { text: 'Add Growshed', path: '/grow/addgrowshed' },
     { text: 'Manage Growsheds', path: '/grow/growsheds' },
     { text: 'Yield', path: '/grow/yield' },
-    { text: 'Contamination', path: '/grow/contamination' }
+    { text: 'Contamination', path: '/grow/contamination' },
+    { text: 'RealTime Monitor', path: '/realtime/monitor' }
   ];
 
   return (
