@@ -9,6 +9,7 @@ const WebSocket = require('ws');
 
 //user imports
 const GSRoutes = require('./routes/GrowShedRoute');
+const yPredictRoute = require('./routes/YieldPredictRoute');
 
 dotenv.config();
 
@@ -35,18 +36,18 @@ connection.once("open",() => {
 //routes define to be used
 //Grow shed
 app.use('/api/v1/growshed',GSRoutes);
+app.use('/api/v1/predictyield',yPredictRoute)
 
 
 const wss = new WebSocket.Server({ port: 8081 });
-// Arduino sensor data
+//Arduino sensor data
 const arduinoPort = new SerialPort({
-    path: 'COM5', // Change this to your actual port
     baudRate: 9600
 });
 
 const parser = arduinoPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
-// Handle incoming data from Arduino
+//Handle incoming data from Arduino
 parser.on('data', (data) => {
     try {
         // Parse the JSON string received from Arduino
