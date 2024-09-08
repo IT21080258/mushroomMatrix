@@ -38,4 +38,3 @@ const GrowComponentSchema = new mongoose.Schema({
 const GrowComponent = mongoose.model('GrowComponent', GrowComponentSchema);
 
 module.exports = GrowComponent;
-``
