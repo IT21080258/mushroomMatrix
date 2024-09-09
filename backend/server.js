@@ -7,7 +7,7 @@ const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
 const WebSocket = require('ws');
 
-//user imports
+// User imports
 const GSRoutes = require('./routes/GrowShedRoute');
 const yPredictRoute = require('./routes/YieldPredictRoute');
 
@@ -15,39 +15,41 @@ dotenv.config();
 
 mongoose.set('strictQuery', true);
 
-//middleware
+// Middleware
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-//database connection
-const PORT = process.env.PORT || 8090 ;
-const URL = process.env.DB_URL ;
-mongoose.connect(URL,{
-    
-})
+// Database connection
+const PORT = process.env.PORT || 8090;
+const URL = process.env.DB_URL;
 
-//check connection
-const connection = mongoose.connection;
-connection.once("open",() => {
-    console.log("Mongodb connection success!");
-})
+mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("MongoDB connection success!");
+    })
+    .catch(err => {
+        console.error("MongoDB connection error:", err);
+    });
 
-//routes define to be used
-//Grow shed
-app.use('/api/v1/growshed',GSRoutes);
-app.use('/api/v1/predictyield',yPredictRoute)
+// Routes define to be used
+app.use('/api/v1/growshed', GSRoutes);
+app.use('/api/v1/predictyield', yPredictRoute);
 
+// WebSocket server
+const wss = new WebSocket.Server({ port: 8081 }, () => {
+    console.log(`WebSocket server is running on port 8081`);
+});
 
-const wss = new WebSocket.Server({ port: 8081 });
-//Arduino sensor data
+// Arduino sensor data
 const arduinoPort = new SerialPort({
+    path: 'COM7', // Ensure this is a string
     baudRate: 9600
 });
 
 const parser = arduinoPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
-//Handle incoming data from Arduino
+// Handle incoming data from Arduino
 parser.on('data', (data) => {
     try {
         // Parse the JSON string received from Arduino
@@ -69,10 +71,20 @@ arduinoPort.on('error', (err) => {
     console.error('Error opening serial port:', err);
 });
 
+// Handle WebSocket connection events
+wss.on('connection', (ws) => {
+    console.log('New client connected');
 
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
 
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+});
 
-//start server
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
