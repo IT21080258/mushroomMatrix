@@ -10,9 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "mobileapp": "file:",
     "react": "18.3.1",
-    "react-native": "0.75.2"
+    "react-native": "0.75.2",
+    "react-native-image-picker": "^7.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

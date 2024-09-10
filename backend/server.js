@@ -43,7 +43,7 @@ const wss = new WebSocket.Server({ port: 8081 }, () => {
 
 // Arduino sensor data
 const arduinoPort = new SerialPort({
-    path: 'COM7', // Ensure this is a string
+    path: 'COM5', 
     baudRate: 9600
 });
 
