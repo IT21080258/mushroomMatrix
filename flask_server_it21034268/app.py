@@ -47,6 +47,9 @@ client = None
 db = None
 collection = None
 
+########################################################################################
+# /add_weight_predictions
+
 @app.route('/add_weight_predictions', methods=['POST'])
 def predict():
 
@@ -54,7 +57,7 @@ def predict():
     param_tm = None
     data = request.get_json()
     param_dc = data.get('param_dc')
-    param_tm = data.get('param_tm ')
+    param_tm = data.get('param_tm')
     
     if param_dc is None or param_tm is None:
         return jsonify({'error': 'Please provide both param_dc and param_tm'}), 400
@@ -117,6 +120,8 @@ def predict():
 
     return jsonify(prediction_data)
 
+########################################################################################
+# /add_aom_predictions
 
 @app.route('/add_aom_predictions', methods=['POST'])
 def predict_aom():
@@ -155,6 +160,9 @@ def predict_aom():
 
     return jsonify(prediction_data)
 
+########################################################################################
+# /add_am_predictions
+
 @app.route('/add_am_predictions', methods=['POST'])
 def predict_am():
 
@@ -192,6 +200,65 @@ def predict_am():
 
     return jsonify(prediction_data)
 
+########################################################################################
+# /get_latest_weight_predictions
+
+@app.route('/get_latest_weight_predictions', methods=['GET'])
+def get_latest_weight_predictions():
+
+    # Connect to MongoDB
+    client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
+    db = client['demandPred']
+    collection = db['predict_demand_weights']
+
+    latest_prediction = collection.find_one(sort=[('_id', -1)])
+
+    if latest_prediction is None:
+        return jsonify({'error': 'No prediction data found'}), 404
+
+    latest_prediction['_id'] = str(latest_prediction['_id'])
+    return jsonify(latest_prediction)
+
+########################################################################################
+# /get_latest_aom_prediction
+
+@app.route('/get_latest_aom_prediction', methods=['GET'])
+def get_latest_aom_prediction():
+
+    # Connect to MongoDB
+    client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
+    db = client['demandPred']
+    collection = db['predict_demand_shop_aom']
+
+    latest_prediction = collection.find_one(sort=[('_id', -1)])
+
+    if latest_prediction is None:
+        return jsonify({'error': 'No prediction data found'}), 404
+
+    latest_prediction['_id'] = str(latest_prediction['_id'])
+    return jsonify(latest_prediction)
+
+########################################################################################
+# /get_latest_am_prediction
+
+@app.route('/get_latest_am_prediction', methods=['GET'])
+def get_latest_am_prediction():
+
+    # Connect to MongoDB
+    client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
+    db = client['demandPred']
+    collection = db['predict_demand_shop_am']
+
+    latest_prediction = collection.find_one(sort=[('_id', -1)])
+
+    if latest_prediction is None:
+        return jsonify({'error': 'No prediction data found'}), 404
+
+    latest_prediction['_id'] = str(latest_prediction['_id'])
+    return jsonify(latest_prediction)
+
+
+########################################################################################
 
 if __name__ == '__main__':
     app.run(debug=True)

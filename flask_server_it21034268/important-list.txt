@@ -127,4 +127,10 @@ http://localhost:4080/add_weight_predictions
 http://localhost:4080/add_aom_predictions
 http://localhost:4080/add_am_predictions
 
+
+
+http://localhost:4080/get_latest_am_prediction
+http://localhost:4080/get_latest_am_prediction
+http://localhost:4080/get_latest_weight_predictions
+
 =============================================================================================
