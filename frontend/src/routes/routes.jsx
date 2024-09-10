@@ -6,6 +6,7 @@ import AddGrowShed from '../pages/growshedMgt/addGrowShed';
 import Yield from '../pages/Yield/predictYield';
 import Contamination from '../pages/contamination/contamination';
 import RealTimeMonitor from '../pages/RealTimeMonitor/realTimeMonitor';
+import ViewDemand from '../pages/demandMgt/ViewDemand';
 
 const MRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const MRoutes = () => {
         <Route path="/grow/yield" element={<Yield />} />
         <Route path="/grow/contamination" element={<Contamination />} />
         <Route path="/realtime/monitor" element={<RealTimeMonitor/>}/>
+        <Route path="/demand" element={<ViewDemand />} />
       </Routes>
     
   );
