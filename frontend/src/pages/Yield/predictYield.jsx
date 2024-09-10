@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

@@ -1,117 +1,103 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState } from 'react';
+import { View, Button, Image, StyleSheet, Alert } from 'react-native';
+import { launchImageLibrary, ImagePickerResponse, Asset } from 'react-native-image-picker';
+import axios from 'axios';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+type ImageType = {
+  uri: string;
+  type: string;
+  fileName: string;
+};
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App: React.FC = () => {
+  const [image, setImage] = useState<ImageType | null>(null);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const selectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+      },
+      (response: ImagePickerResponse) => {
+        console.log('ImagePicker Response:', response); // Log the response to understand its structure
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+        if (response.didCancel) {
+          Alert.alert('User cancelled image picker');
+        } else if (response.errorCode) { // Changed response.error to response.errorCode
+          Alert.alert('ImagePicker Error: ', response.errorMessage || response.errorCode); // Use errorMessage if available
+        } else if (response.assets && response.assets.length > 0) { // Ensure assets exist and have at least one item
+          const selectedImage: Asset = response.assets[0];
+          if (selectedImage.uri) { // Check if uri exists
+            setImage({
+              uri: selectedImage.uri,
+              type: selectedImage.type || 'image/jpeg', // Provide a default type if necessary
+              fileName: selectedImage.fileName || 'image.jpg', // Provide a default fileName if necessary
+            });
+          } else {
+            Alert.alert('ImagePicker Error: URI not found');
+          }
+        } else {
+          Alert.alert('ImagePicker Error: No assets found');
+        }
+      }
+    );
   };
 
+  // Uncomment this function to enable image upload
+  /*
+  const uploadImage = async () => {
+    if (!image) {
+      Alert.alert('No image selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('avatar', {
+      uri: image.uri,
+      type: image.type,
+      name: image.fileName,
+    });
+
+    try {
+      const res = await axios.post('http://your-server-url/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  */
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Button title="Select Image" onPress={selectImage} />
+      {image && image.uri && ( // Ensure image.uri exists before rendering
+        <Image
+          source={{ uri: image.uri }}
+          style={styles.image}
+        />
+      )}
+      {/* Uncomment the button below to enable image upload */}
+      {/* <Button title="Upload Image" onPress={uploadImage} /> */}
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  image: {
+    width: 400,
+    height: 400,
+    marginTop: 20,
+    borderRadius: 10,
   },
 });
 

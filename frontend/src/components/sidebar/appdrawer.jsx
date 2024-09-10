@@ -12,9 +12,9 @@ const drawerWidth = 240;
 
 const AppDrawer = ({ children }) => {
   const menuItems = [
-    { text: 'Dashboard', path: '/dashboard' },
-    { text: 'Add Users', path: '/user/adduser' },
-    { text: 'List Users', path: '/user/listuser' },
+    // { text: 'Dashboard', path: '/dashboard' },
+    // { text: 'Add Users', path: '/user/adduser' },
+    // { text: 'List Users', path: '/user/listuser' },
     { text: 'Add Growshed', path: '/grow/addgrowshed' },
     { text: 'Manage Growsheds', path: '/grow/growsheds' },
     { text: 'Yield', path: '/grow/yield' },
