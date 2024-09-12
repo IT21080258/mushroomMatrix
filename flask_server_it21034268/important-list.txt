@@ -123,14 +123,14 @@ Output :
 py_env_it21034268\Scripts\activate
 python -m flask --app ./app.py run --port=4080
 
-http://localhost:4080/add_weight_predictions
-http://localhost:4080/add_aom_predictions
-http://localhost:4080/add_am_predictions
+http://localhost:4080/add_predict_customer_demand
+http://localhost:4080/add_predict_shop_demand_aom
+http://localhost:4080/add_predict_shop_demand_am
 
 
 
-http://localhost:4080/get_latest_am_prediction
-http://localhost:4080/get_latest_am_prediction
-http://localhost:4080/get_latest_weight_predictions
+http://localhost:4080/get_predict_customer_demand
+http://localhost:4080/get_predict_shop_demand_aom
+http://localhost:4080/get_predict_shop_demand_am
 
 =============================================================================================

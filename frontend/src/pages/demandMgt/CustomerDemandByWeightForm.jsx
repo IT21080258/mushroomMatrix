@@ -8,33 +8,49 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 
+// Define the districts array separately
+const districts = [
+  'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle', 
+  'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle', 
+  'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala', 
+  'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura', 
+  'Trincomalee', 'Vavuniya'
+];
+
 const CustomerDemandByWeightForm = () => {
   // State variables to hold district and member count
-  const [district, setDistrict] = useState('');
+  const [districtIndex, setDistrictIndex] = useState('');
   const [memberCount, setMemberCount] = useState('');
 
-  // Handler for district selection
-  const handleDistrict = (event) => {
-    setDistrict(event.target.value);
+  // Passing JSON Object
+  const customerPrediction = {
+    districtIndex,
+    memberCount
+  };
+
+  // Handler for districtIndex selection
+  const handleDistrictIndex = (event) => {
+    setDistrictIndex(event.target.value);
   };
 
   // Handler for member count input
   const handleMemberCount = (event) => {
-    setMemberCount(event.target.value);
+    const value = event.target.value;
+    // Check if the value is a number and greater than 0
+    if (/^\d*$/.test(value) && (value === '' || Number(value) > 0)) {
+      setMemberCount(value);
+    }
   };
 
   // Handler for form submission
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
     try {
-      // Send POST request to the backend API
-      const response = await axios.post('http://localhost:4080/add_weight_predictions', {
-        district,
-        memberCount: Number(memberCount) // Convert memberCount to a number
-      });
+      // Send POST request to the Flask API
+      const response = await axios.post('URL', customerPrediction);
 
-      console.log(response.data); // Log the response from the server
+      console.log(response.data);
     } catch (error) {
       // Log any errors that occur during the request
       console.error('Error:', error.response ? error.response.data : error.message);
@@ -44,16 +60,16 @@ const CustomerDemandByWeightForm = () => {
   return (
     <Container
       sx={{
-        bgcolor: '#E0DDDC', // Background color
-        color: 'black', // Text color
-        borderRadius: '16px', // Rounded corners
-        width: '550px', // Width of the container
-        height: '400px', // Height of the container
-        padding: '16px', // Padding inside the container
-        display: 'flex', // Flexbox layout
-        flexDirection: 'column', // Column direction
-        justifyContent: 'center', // Center content vertically
-        alignItems: 'center', // Center content horizontally
+        bgcolor: '#E0DDDC',
+        color: 'black',
+        borderRadius: '16px',
+        width: '550px',
+        height: '400px',
+        padding: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
       fixed
     >
@@ -62,13 +78,12 @@ const CustomerDemandByWeightForm = () => {
         <Select
           labelId="district-select-label"
           id="district-select"
-          value={district} // Current selected district
+          value={districtIndex}
           label="District"
-          onChange={handleDistrict} // Update state on change
+          onChange={handleDistrictIndex}
         >
-          {/* Map through an array of district names to create menu items */}
-          {['Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'].map((districtName, index) => (
-            <MenuItem key={index} value={index + 1}>{districtName}</MenuItem>
+          {districts.map((districtName, districtIndex) => (
+            <MenuItem key={districtIndex} value={districtIndex}>{districtName}</MenuItem>
           ))}
         </Select>
 
@@ -76,19 +91,20 @@ const CustomerDemandByWeightForm = () => {
           id="outlined-basic"
           label="Total Members"
           variant="outlined"
-          value={memberCount} // Current value of member count
-          onChange={handleMemberCount} // Update state on change
-          type="number" // Ensure the input is a number
-          sx={{ marginTop: '16px' }} // Margin on top
+          value={memberCount}
+          onChange={handleMemberCount}
+          type="number"
+          sx={{ marginTop: '16px' }}
         />
 
-        <Button
-          variant="contained"
-          style={{ width: '210px', marginTop: '16px' }} // Button styling
-          onClick={handleSubmit} // Call handleSubmit on click
+        <Button 
+          variant="contained" 
+          style={{ width: '210px', marginTop: '30px', margin: '0 auto' }}
+          onClick={handleSubmit}
         >
           Predict
         </Button>
+
       </FormControl>
     </Container>
   );

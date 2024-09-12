@@ -7,6 +7,8 @@ import numpy as np
 from pymongo import MongoClient
 from bson import ObjectId
 
+import logging
+
 app = Flask(__name__)
 
 # Define the relative path to the model directory
@@ -47,17 +49,25 @@ client = None
 db = None
 collection = None
 
-########################################################################################
-# /add_weight_predictions
+# Configure logging to display messages in the console
+logging.basicConfig(level=logging.DEBUG,  # Set log level to DEBUG to capture all messages
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')  # Define the format
 
-@app.route('/add_weight_predictions', methods=['POST'])
+########################################################################################
+# /add_predict_customer_demand
+
+@app.route('/add_predict_customer_demand', methods=['POST'])
 def predict():
 
+    app.logger.info('Hey')
     param_dc = None
     param_tm = None
     data = request.get_json()
     param_dc = data.get('param_dc')
     param_tm = data.get('param_tm')
+
+    # Log the received data
+    app.logger.info("hey")
     
     if param_dc is None or param_tm is None:
         return jsonify({'error': 'Please provide both param_dc and param_tm'}), 400
@@ -101,7 +111,7 @@ def predict():
     # Connect to MongoDB
     client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
     db = client['demandPred']
-    collection = db['predict_demand_weights']
+    collection = db['predictCustomerDemand']
     
     # Save predictions to MongoDB
     prediction_data = {
@@ -121,9 +131,9 @@ def predict():
     return jsonify(prediction_data)
 
 ########################################################################################
-# /add_aom_predictions
+# /add_predict_shop_demand_aom
 
-@app.route('/add_aom_predictions', methods=['POST'])
+@app.route('/add_predict_shop_demand_aom', methods=['POST'])
 def predict_aom():
 
     data = request.get_json()
@@ -144,7 +154,7 @@ def predict_aom():
     # Connect to MongoDB
     client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
     db = client['demandPred']
-    collection = db['predict_demand_shop_aom']
+    collection = db['predictShopDemandAom']
 
     # Save predictions to MongoDB
     prediction_data = {
@@ -161,9 +171,9 @@ def predict_aom():
     return jsonify(prediction_data)
 
 ########################################################################################
-# /add_am_predictions
+# /add_predict_shop_demand_am
 
-@app.route('/add_am_predictions', methods=['POST'])
+@app.route('/add_predict_shop_demand_am', methods=['POST'])
 def predict_am():
 
     data = request.get_json()
@@ -184,7 +194,7 @@ def predict_am():
     # Connect to MongoDB
     client = MongoClient('mongodb+srv://it21034268:oKNtVV3QK83Vu8S8@demandpred.kvxbz.mongodb.net/?retryWrites=true&w=majority&appName=demandPred')
     db = client['demandPred']
-    collection = db['predict_demand_shop_am']
+    collection = db['predictShopDemandAm']
 
     # Save predictions to MongoDB
     prediction_data = {
@@ -201,9 +211,9 @@ def predict_am():
     return jsonify(prediction_data)
 
 ########################################################################################
-# /get_latest_weight_predictions
+# /get_predict_customer_demand
 
-@app.route('/get_latest_weight_predictions', methods=['GET'])
+@app.route('/get_predict_customer_demand', methods=['GET'])
 def get_latest_weight_predictions():
 
     # Connect to MongoDB
@@ -220,9 +230,9 @@ def get_latest_weight_predictions():
     return jsonify(latest_prediction)
 
 ########################################################################################
-# /get_latest_aom_prediction
+# /get_predict_shop_demand_aom
 
-@app.route('/get_latest_aom_prediction', methods=['GET'])
+@app.route('/get_predict_shop_demand_aom', methods=['GET'])
 def get_latest_aom_prediction():
 
     # Connect to MongoDB
@@ -239,9 +249,9 @@ def get_latest_aom_prediction():
     return jsonify(latest_prediction)
 
 ########################################################################################
-# /get_latest_am_prediction
+# /get_predict_shop_demand_am
 
-@app.route('/get_latest_am_prediction', methods=['GET'])
+@app.route('/get_predict_shop_demand_am', methods=['GET'])
 def get_latest_am_prediction():
 
     # Connect to MongoDB
