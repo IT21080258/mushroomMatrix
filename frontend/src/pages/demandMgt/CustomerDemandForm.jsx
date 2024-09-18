@@ -1,0 +1,86 @@
+import * as React from 'react';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+
+const districts = [
+  'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle', 
+  'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle', 
+  'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala', 
+  'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura', 
+  'Trincomalee', 'Vavuniya'
+];
+
+const CustomerDemandForm = () => {
+  const [district, setDistrict] = React.useState('');
+  const [memberCount, setMemberCount] = React.useState('');
+
+  const handleDistrictChange = (event) => {
+    setDistrict(event.target.value);
+  };
+
+  const handleMemberCountChange = (event) => {
+    const value = event.target.value;
+    if (value === '' || /^[1-9]*$/.test(value)) {
+      setMemberCount(value);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('District:', district);
+    console.log('Member Count:', memberCount);
+    setDistrict('');
+    setMemberCount('');
+  };
+
+  return (
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px', width: '550px', height: '400px', padding: '16px' }} fixed>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Box sx={{ m: 4 }}>
+          <FormControl fullWidth>
+            <InputLabel id="district-select-label">District</InputLabel>
+            <Select
+              labelId="district-select-label"
+              id="district-select"
+              value={district}
+              label="District"
+              onChange={handleDistrictChange}
+            >
+              {districts.map((districtName, index) => (
+                <MenuItem key={index} value={districtName}>{districtName}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box sx={{ m: 4 }}>
+          <FormControl fullWidth>
+            <TextField
+              id="member-count"
+              label="Member Count"
+              variant="outlined"
+              value={memberCount}
+              onChange={handleMemberCountChange}
+              type="number"
+              inputProps={{ min: "0", step: "1" }}
+            />
+          </FormControl>
+        </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+          <Button type="submit" variant="contained" style={{ width: '210px' }}>
+            Submit
+          </Button>
+        </Box>
+      </Box>
+    </Container>
+  );
+};
+
+export default CustomerDemandForm;
