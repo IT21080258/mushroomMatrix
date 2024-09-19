@@ -21,6 +21,10 @@ const InformationViewOne = () => {
       mushroom_id: '3',
       mushroom_name: 'Pink Oyster Mushroom (POM)',
     },
+    {
+      mushroom_id: '4',
+      mushroom_name: 'Abalone Mushroom (AM)',
+    },
   ];
   
   return (
@@ -34,6 +38,7 @@ const InformationViewOne = () => {
                         { id: dataset[1].mushroom_id, value: null, label: dataset[1].mushroom_name },
                         { id: dataset[2].mushroom_id, value: null, label: dataset[2].mushroom_name },
                         { id: dataset[3].mushroom_id, value: null, label: dataset[3].mushroom_name },
+                        { id: dataset[4].mushroom_id, value: null, label: dataset[4].mushroom_name }
                     ],  
                 },
             ]}

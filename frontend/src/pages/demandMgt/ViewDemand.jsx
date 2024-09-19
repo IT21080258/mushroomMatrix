@@ -53,7 +53,7 @@ const ViewDemand = () => {
         <ShopDemandVisualTwo/>
       </div>
 
-      <div style={{ transform: 'translateX(0%) translateY(-110%)' , width:'fitContent' , height:'fitContent' }}>
+      <div style={{ transform: 'translateX(55%) translateY(-110%)' , width:'fitContent' , height:'fitContent' }}>
         <ShopDemandVisualThree/>
       </div>
 
