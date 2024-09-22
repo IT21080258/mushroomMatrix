@@ -5,7 +5,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 const ShopDemandVisualOne = () => {
   // State for current and predicted values
   const [currentValues, setCurrentValues] = useState(Array(7).fill(0));
-  const [predictValues, setPredictValues] = useState(Array(7).fill(0));
+  const [predictedValues, setPredictedValues] = useState(Array(7).fill(0));
 
   // Fetch data from API
   useEffect(() => {
@@ -13,20 +13,20 @@ const ShopDemandVisualOne = () => {
       try {
         const response = await fetch("/get_predict_shop_demand_aom");
         const data = await response.json();
+        
+        // Update state with fetched data in reverse order
+        const current = data.map(item => item.c_daily_sales).reverse();
+        const predicted = data.map(item => item.fy_daily_sales).reverse();
 
-        // Update state with fetched data
-        const currentSales = data.map(item => item.c_daily_sales);
-        const predictedSales = data.map(item => item.fy_daily_sales);
-
-        setCurrentValues(currentSales);
-        setPredictValues(predictedSales);
+        setCurrentValues(current);
+        setPredictedValues(predicted);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, []); // Added empty dependency array for effect to run once on mount
 
   return (
     <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px' }}>
@@ -43,7 +43,7 @@ const ShopDemandVisualOne = () => {
           },
           {
             name: 'Series 2 - Predicted',
-            data: predictValues,
+            data: predictedValues,
           },
         ]}
         width={500}

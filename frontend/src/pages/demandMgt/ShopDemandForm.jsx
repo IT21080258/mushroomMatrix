@@ -1,12 +1,5 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
+import { Container, Box, Button, InputLabel, MenuItem, FormControl, Select, TextField } from '@mui/material';
 
 const districts = [
   'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle', 
@@ -24,40 +17,93 @@ const mushrooms = [
   'Abalone Mushroom (AM)'
 ];
 
+const sales_growth_choice = [
+  'Yes', 
+  'No'
+];
+
 const ShopDemandForm = () => {
   const [mushroomType, setMushroomType] = React.useState('');
   const [district, setDistrict] = React.useState('');
+  const [expectDailySalesGrowthChoice, setExpectDailySalesGrowthChoice] = React.useState('');
   const [demandAmount, setDemandAmount] = React.useState('');
 
+  const [mushroomCode, setMushroomCode] = React.useState(null);
+  const [districtCode, setDistrictCode] = React.useState(null);
+  const [observedDailySales, setObservedDailySales] = React.useState(null);
+  const [expectDailySalesGrowth, setExpectDailySalesGrowth] = React.useState(null);
+
   const handleMushroomTypeChange = (event) => {
-    setMushroomType(event.target.value);
+    const selectedMushroomType = event.target.value;
+    setMushroomType(selectedMushroomType);
+    setMushroomCode(mushrooms.indexOf(selectedMushroomType));
   };
 
   const handleDistrictChange = (event) => {
-    setDistrict(event.target.value);
+    const selectedDistrict = event.target.value;
+    setDistrict(selectedDistrict);
+    setDistrictCode(districts.indexOf(selectedDistrict));
   };
 
   const handleDemandAmountChange = (event) => {
     const value = event.target.value;
     if (value === '' || /^[1-9]*$/.test(value)) {
       setDemandAmount(value);
+      setObservedDailySales(parseInt(value) || null); // Update observed daily sales based on demand amount
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleExpectDailySalesGrowthChoice = (event) => {
+    const choice = event.target.value;
+    setExpectDailySalesGrowthChoice(choice);
+    setExpectDailySalesGrowth(sales_growth_choice.indexOf(choice));
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Mushroom Type:', mushroomType);
-    console.log('District:', district);
-    console.log('Demand Amount:', demandAmount);
-    setMushroomType('');
-    setDistrict('');
-    setDemandAmount('');
+    
+    // Prepare data to be sent
+    const data = { mushroomCode, districtCode, observedDailySales, expectDailySalesGrowth };
+
+    try {
+      const response = await fetch('/add_predict_shop_demand', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      console.log('Success:', result);
+      
+      // Reset form fields
+      setMushroomType('');
+      setDistrict('');
+      setExpectDailySalesGrowthChoice('');
+      setDemandAmount('');
+      setMushroomCode(null);
+      setDistrictCode(null);
+      setObservedDailySales(null);
+      setExpectDailySalesGrowth(null);
+
+      // Refresh the page after successful submission
+      if(result)
+        window.location.reload();
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px', width: '550px', height: '400px', padding: '16px' }} fixed>
+    <Container sx={{ bgcolor: '#E0DDDC', color: '#000', borderRadius: '16px', width: '550px', height: '500px', padding: '16px' }} fixed>
       <Box component="form" onSubmit={handleSubmit}>
-        <Box sx={{ m: 4 }}> {/* Increased margin to create more space */}
+        <Box sx={{ m: 4 }}>
           <FormControl fullWidth>
             <InputLabel id="mushroom-type-select-label">Mushroom Type</InputLabel>
             <Select
@@ -74,7 +120,7 @@ const ShopDemandForm = () => {
           </FormControl>
         </Box>
 
-        <Box sx={{ m: 4 }}> {/* Increased margin to create more space */}
+        <Box sx={{ m: 4 }}>
           <FormControl fullWidth>
             <InputLabel id="district-select-label">District</InputLabel>
             <Select
@@ -91,7 +137,24 @@ const ShopDemandForm = () => {
           </FormControl>
         </Box>
 
-        <Box sx={{ m: 4 }}> {/* Increased margin to create more space */}
+        <Box sx={{ m: 4 }}>
+          <FormControl fullWidth>
+            <InputLabel id="expect_daily-sales-growth-select-label">Expect Daily Sales Growth</InputLabel>
+            <Select
+              labelId="expect_daily-sales-growth-select-label"
+              id="expect_daily-sales-growth-select"
+              value={expectDailySalesGrowthChoice}
+              label="Expect Daily Sales Growth"
+              onChange={handleExpectDailySalesGrowthChoice}
+            >
+              {sales_growth_choice.map((choice, index) => (
+                <MenuItem key={index} value={choice}>{choice}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box sx={{ m: 4 }}>
           <FormControl fullWidth>
             <TextField
               id="demand-amount"
@@ -105,8 +168,7 @@ const ShopDemandForm = () => {
           </FormControl>
         </Box>
 
-        {/* Centering the button */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}> {/* Increased top margin for the button */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
           <Button type="submit" variant="contained" style={{ width: '210px' }}>
             Submit
           </Button>

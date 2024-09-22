@@ -19,10 +19,9 @@ const ShopDemandVisualTwo = () => {
         
         // Map the fetched data to our state structure
         const formattedData = data.map(item => ({
-          currentDailyValue: item.c_daily_sales,
           currentValue: item.cy_monthly_sales,
           predictValue: item.fy_monthly_sales,
-        }));
+        })).reverse();
         
         setSalesData(formattedData);
       } catch (error) {
@@ -35,8 +34,7 @@ const ShopDemandVisualTwo = () => {
 
   // Prepare data for the ScatterChart
   const chartData = salesData.map((sales, index) => ({
-    id: `data-${index + 1}`,
-    observed_daily_sales: sales.currentDailyValue,
+    id: index + 1,
     cy_monthly_sales: sales.currentValue,
     fy_monthly_sales: sales.predictValue,
   }));
@@ -51,11 +49,11 @@ const ShopDemandVisualTwo = () => {
         series={[
           {
             label: 'Current Value',
-            data: chartData.map(v => ({ x: v.observed_daily_sales, y: v.cy_monthly_sales, id: v.id })),
+            data: chartData.map(v => ({ x: v.id, y: v.cy_monthly_sales, id: v.id })),
           },
           {
             label: 'Predicted Value',
-            data: chartData.map(v => ({ x: v.observed_daily_sales, y: v.fy_monthly_sales, id: v.id })),
+            data: chartData.map(v => ({ x: v.id, y: v.fy_monthly_sales, id: v.id })),
           },
         ]}
         grid={{ vertical: true, horizontal: true }}

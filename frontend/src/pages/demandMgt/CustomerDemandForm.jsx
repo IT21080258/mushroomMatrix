@@ -31,12 +31,40 @@ const CustomerDemandForm = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('District:', district);
-    console.log('Member Count:', memberCount);
-    setDistrict('');
-    setMemberCount('');
+    
+    // Prepare data to be sent
+    const districtCode = districts.indexOf(district);
+    const data = { districtCode, memberCount: parseInt(memberCount) };
+
+    try {
+      const response = await fetch('/add_predict_customer_demand', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      console.log('Success:', result);
+      
+      // Reset form fields
+      setDistrict('');
+      setMemberCount('');
+
+      // Refresh the page after successful submission
+      if(result)
+        window.location.reload();
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (

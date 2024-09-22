@@ -83,8 +83,8 @@ const ShopDemandVisualThree = () => {
     fetch("/get_predict_shop_demand_aom")
       .then(res => res.json())
       .then(data => {
-        const currentSales = data.map(item => item.cy_yearly_sales);
-        const predictedSales = data.map(item => item.fy_yearly_sales);
+        const currentSales = data.map(item => item.cy_yearly_sales).reverse();
+        const predictedSales = data.map(item => item.fy_yearly_sales).reverse();
         
         setCurrentValues(currentSales);
         setPredictValues(predictedSales);

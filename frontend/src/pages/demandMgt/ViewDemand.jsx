@@ -40,8 +40,8 @@ const ViewDemand = () => {
       <div style={{ transform: 'translateX(0%) translateY(0%)' , width:'fitContent' , height:'fitContent' }}>
         <ShopDemandForm/>
       </div>
-
-      <div style={{ transform: 'translateX(110%) translateY(-140%)' , width:'fitContent' , height:'fitContent' }}>
+      
+      <div style={{ transform: 'translateX(110%) translateY(-185%)' , width:'fitContent' , height:'fitContent' }}>
         <InformationViewTwo/>
       </div>
         
@@ -56,6 +56,8 @@ const ViewDemand = () => {
       <div style={{ transform: 'translateX(55%) translateY(-110%)' , width:'fitContent' , height:'fitContent' }}>
         <ShopDemandVisualThree/>
       </div>
+
+
 
     </div>
 
