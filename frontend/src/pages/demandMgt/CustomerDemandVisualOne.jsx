@@ -11,20 +11,28 @@ const CustomerDemandVisualOne = () => {
     const [predictionBom, setPredictionBom] = useState(null);
     const [predictionPom, setPredictionPom] = useState(null);
 
+    // State to track loading status
+    const [loading, setLoading] = useState(true);
+
     // Fetch predictions on component mount
     useEffect(() => {
-        fetch("/get_predict_customer_demand")
-            .then(res => res.json())
-            .then(data => {
+        const fetchPredictions = async () => {
+            try {
+                const response = await fetch("/get_predict_customer_demand");
+                const data = await response.json();
                 setPredictionAom(data.prediction_aom);
                 setPredictionBm(data.prediction_bm);
                 setPredictionBom(data.prediction_bom);
                 setPredictionPom(data.prediction_pom);
-            });
-    }, []); // Added empty dependency array to run effect only on mount
+            } catch (error) {
+                console.error("Error fetching predictions:", error);
+            } finally {
+                setLoading(false); // Set loading to false after fetching
+            }
+        };
 
-    // Check if any prediction is null
-    const isAnyPredictionNull = [predictionAom, predictionBm, predictionBom, predictionPom].some(prediction => prediction === null);
+        fetchPredictions();
+    }, []); // Runs once on mount
 
     // Data representation for the bar chart
     const mushroomCustomerRepresent = [
@@ -52,7 +60,7 @@ const CustomerDemandVisualOne = () => {
 
     return (
         <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px' }}>
-            {isAnyPredictionNull ? (
+            {loading ? (
                 <Box 
                     sx={{ 
                     display: 'flex', 

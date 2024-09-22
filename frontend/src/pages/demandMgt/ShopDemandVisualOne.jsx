@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const ShopDemandVisualOne = () => {
   // State for current and predicted values
-  const [currentValues, setCurrentValues] = useState(Array(7).fill(0));
-  const [predictedValues, setPredictedValues] = useState(Array(7).fill(0));
+  const [currentValues, setCurrentValues] = useState(Array(7).fill(null));
+  const [predictedValues, setPredictedValues] = useState(Array(7).fill(null));
+  
+  // State to track loading status
+  const [loading, setLoading] = useState(true);
 
   // Fetch data from API
   useEffect(() => {
@@ -22,33 +27,49 @@ const ShopDemandVisualOne = () => {
         setPredictedValues(predicted);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
     fetchData();
-  }, []); // Added empty dependency array for effect to run once on mount
+  }, []); // Runs once on mount
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px' }}>
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'black', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
         Daily Sales Summary (AOM)
       </Typography>
 
-      <LineChart
-        xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7], label: 'Day Number (Latest details in day number 7th)' }]}
-        series={[
-          {
-            name: 'Series 1 - Current',
-            data: currentValues,
-          },
-          {
-            name: 'Series 2 - Predicted',
-            data: predictedValues,
-          },
-        ]}
-        width={500}
-        height={300}
-      />
+      {loading ? (
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', // Center horizontally
+            alignItems: 'center',     // Center vertically
+            width: 500, 
+            height: 300 
+          }}
+        >
+          <CircularProgress size={100} />
+        </Box>
+      ) : (
+        <LineChart
+          xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7], label: 'Day Number (Latest details in day number 7th)' }]}
+          series={[
+            {
+              name: 'Series 1 - Current',
+              data: currentValues,
+            },
+            {
+              name: 'Series 2 - Predicted',
+              data: predictedValues,
+            },
+          ]}
+          width={500}
+          height={300}
+        />
+      )}
     </Container>
   );
 };

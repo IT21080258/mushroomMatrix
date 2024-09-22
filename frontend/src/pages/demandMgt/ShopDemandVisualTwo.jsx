@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const ShopDemandVisualTwo = () => {
   // State for daily and monthly sales values
@@ -9,6 +11,9 @@ const ShopDemandVisualTwo = () => {
     currentValue: 0,
     predictValue: 0,
   }));
+
+  // State to track loading status
+  const [loading, setLoading] = useState(true);
 
   // Fetch sales data on component mount
   useEffect(() => {
@@ -26,6 +31,8 @@ const ShopDemandVisualTwo = () => {
         setSalesData(formattedData);
       } catch (error) {
         console.error("Error fetching sales data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -40,26 +47,40 @@ const ShopDemandVisualTwo = () => {
   }));
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px' }}>
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
         Monthly Sales Summary (AOM)
       </Typography>
 
-      <ScatterChart
-        series={[
-          {
-            label: 'Current Value',
-            data: chartData.map(v => ({ x: v.id, y: v.cy_monthly_sales, id: v.id })),
-          },
-          {
-            label: 'Predicted Value',
-            data: chartData.map(v => ({ x: v.id, y: v.fy_monthly_sales, id: v.id })),
-          },
-        ]}
-        grid={{ vertical: true, horizontal: true }}
-        width={500}
-        height={300}
-      />
+      {loading ? (
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', // Center horizontally
+            alignItems: 'center',     // Center vertically
+            width: '100%', 
+            height: 300 
+          }}
+        >
+          <CircularProgress size={100} />
+        </Box>
+      ) : (
+        <ScatterChart
+          series={[
+            {
+              label: 'Current Value',
+              data: chartData.map(v => ({ x: v.id, y: v.cy_monthly_sales, id: v.id })),
+            },
+            {
+              label: 'Predicted Value',
+              data: chartData.map(v => ({ x: v.id, y: v.fy_monthly_sales, id: v.id })),
+            },
+          ]}
+          grid={{ vertical: true, horizontal: true }}
+          width={500}
+          height={300}
+        />
+      )}
     </Container>
   );
 };

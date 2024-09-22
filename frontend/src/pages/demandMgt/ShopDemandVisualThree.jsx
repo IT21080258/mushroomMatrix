@@ -5,6 +5,8 @@ import { ResponsiveChartContainer } from '@mui/x-charts/ResponsiveChartContainer
 import { LinePlot } from '@mui/x-charts/LineChart';
 import { ChartsYAxis } from '@mui/x-charts/ChartsYAxis';
 import { useDrawingArea, useYScale } from '@mui/x-charts/hooks';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 // Styled components
 const StyledPath = styled('path')(({ theme }) => ({
@@ -77,53 +79,78 @@ const ShopDemandVisualThree = () => {
   // State variables for current and predicted values
   const [currentValues, setCurrentValues] = useState(Array(7).fill(0));
   const [predictValues, setPredictValues] = useState(Array(7).fill(0));
+  
+  // State to track loading status
+  const [loading, setLoading] = useState(true);
 
   // Fetch data on component mount
   useEffect(() => {
-    fetch("/get_predict_shop_demand_aom")
-      .then(res => res.json())
-      .then(data => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/get_predict_shop_demand_aom");
+        const data = await response.json();
+        
         const currentSales = data.map(item => item.cy_yearly_sales).reverse();
         const predictedSales = data.map(item => item.fy_yearly_sales).reverse();
         
         setCurrentValues(currentSales);
         setPredictValues(predictedSales);
-      });
+      } catch (error) {
+        console.error("Error fetching sales data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px' }}>
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
         Yearly Sales Summary (AOM)
       </Typography>
 
-      <ResponsiveChartContainer
-        ref={svgRef}
-        margin={{ top: 20, left: 50, right: 50, bottom: 30 }}
-        height={300}
-        series={[
-          {
-            type: 'line',
-            data: currentValues,
-            yAxisId: 'left_axis_id',
-          },
-          {
-            type: 'line',
-            data: predictValues,
-            yAxisId: 'right_axis_id',
-          },
-        ]}
-        xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7], scaleType: 'point' }]}
-        yAxis={[
-          { id: 'left_axis_id' },
-          { id: 'right_axis_id' },
-        ]}
-      >
-        <LinePlot />
-        <ChartsYAxis position="left" axisId="left_axis_id" />
-        <ChartsYAxis position="right" axisId="right_axis_id" />
-        <ValueHighlight svgRef={svgRef} />
-      </ResponsiveChartContainer>
+      {loading ? (
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', // Center horizontally
+            alignItems: 'center',     // Center vertically
+            height: 300 
+          }}
+        >
+          <CircularProgress size={100} />
+        </Box>
+      ) : (
+        <ResponsiveChartContainer
+          ref={svgRef}
+          margin={{ top: 20, left: 50, right: 50, bottom: 30 }}
+          height={300}
+          series={[
+            {
+              type: 'line',
+              data: currentValues,
+              yAxisId: 'left_axis_id',
+            },
+            {
+              type: 'line',
+              data: predictValues,
+              yAxisId: 'right_axis_id',
+            },
+          ]}
+          xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7], scaleType: 'point' }]}
+          yAxis={[
+            { id: 'left_axis_id' },
+            { id: 'right_axis_id' },
+          ]}
+        >
+          <LinePlot />
+          <ChartsYAxis position="left" axisId="left_axis_id" />
+          <ChartsYAxis position="right" axisId="right_axis_id" />
+          <ValueHighlight svgRef={svgRef} />
+        </ResponsiveChartContainer>
+      )}
     </Container>
   );
 };
