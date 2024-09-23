@@ -60,11 +60,11 @@ const ViewDemand = () => {
       </div>
 
       <div style={{ transform: 'translateX(0%) translateY(-90%)' , width:'fitContent' , height:'fitContent' }}>
-        <ShopDemandVisualFour/>
+        <ShopDemandVisualFour endpointString = "/get_predict_shop_demand_am" />
       </div>
 
       <div style={{ transform: 'translateX(110%) translateY(-190%)' , width:'fitContent' , height:'fitContent' }}>
-        <ShopDemandVisualFive/>
+        <ShopDemandVisualFive endpointString = "/get_predict_shop_demand_am" />
       </div>
 
 

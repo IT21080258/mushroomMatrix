@@ -4,8 +4,8 @@ import { PieChart } from '@mui/x-charts/PieChart';
 
 const ShopDemandVisualFive = () => {
   // State variables for yearly sales
-  const [currentValueYearly, setCurrentValueYearly] = useState(1);
-  const [followingValueYearly, setFollowingValueYearly] = useState(2);
+  const [currentValueYearly, setCurrentValueYearly] = useState(null);
+  const [followingValueYearly, setFollowingValueYearly] = useState(null);
 
   // State to track loading status
   const [loading, setLoading] = useState(true);

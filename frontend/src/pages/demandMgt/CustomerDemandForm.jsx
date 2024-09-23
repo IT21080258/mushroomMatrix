@@ -17,8 +17,8 @@ const districts = [
 ];
 
 const CustomerDemandForm = () => {
-  const [district, setDistrict] = React.useState('');
-  const [memberCount, setMemberCount] = React.useState('');
+  const [district, setDistrict] = React.useState(null);
+  const [memberCount, setMemberCount] = React.useState(null);
 
   const handleDistrictChange = (event) => {
     setDistrict(event.target.value);
@@ -55,8 +55,8 @@ const CustomerDemandForm = () => {
       console.log('Success:', result);
       
       // Reset form fields
-      setDistrict('');
-      setMemberCount('');
+      setDistrict(null);
+      setMemberCount(null);
 
       // Refresh the page after successful submission
       if(result)

@@ -77,8 +77,8 @@ const ShopDemandVisualThree = () => {
   const svgRef = useRef(null);
   
   // State variables for current and predicted values
-  const [currentValues, setCurrentValues] = useState(Array(7).fill(0));
-  const [followingValues, setFollowingValues] = useState(Array(7).fill(0));
+  const [currentValues, setCurrentValues] = useState(Array(7).fill(null));
+  const [followingValues, setFollowingValues] = useState(Array(7).fill(null));
   
   // State to track loading status
   const [loading, setLoading] = useState(true);

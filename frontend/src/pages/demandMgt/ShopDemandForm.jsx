@@ -23,10 +23,10 @@ const sales_growth_choice = [
 ];
 
 const ShopDemandForm = () => {
-  const [mushroomType, setMushroomType] = React.useState('');
-  const [district, setDistrict] = React.useState('');
-  const [expectDailySalesGrowthChoice, setExpectDailySalesGrowthChoice] = React.useState('');
-  const [demandAmount, setDemandAmount] = React.useState('');
+  const [mushroomType, setMushroomType] = React.useState(null);
+  const [district, setDistrict] = React.useState(null);
+  const [expectDailySalesGrowthChoice, setExpectDailySalesGrowthChoice] = React.useState(null);
+  const [demandAmount, setDemandAmount] = React.useState(null);
 
   const [mushroomCode, setMushroomCode] = React.useState(null);
   const [districtCode, setDistrictCode] = React.useState(null);
@@ -82,10 +82,10 @@ const ShopDemandForm = () => {
       console.log('Success:', result);
       
       // Reset form fields
-      setMushroomType('');
-      setDistrict('');
-      setExpectDailySalesGrowthChoice('');
-      setDemandAmount('');
+      setMushroomType(null);
+      setDistrict(null);
+      setExpectDailySalesGrowthChoice(null);
+      setDemandAmount(null);
       setMushroomCode(null);
       setDistrictCode(null);
       setObservedDailySales(null);
