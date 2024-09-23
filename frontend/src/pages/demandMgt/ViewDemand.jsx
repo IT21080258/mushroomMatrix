@@ -9,6 +9,8 @@ import InformationViewTwo from './InformationViewTwo';
 import ShopDemandVisualOne from './ShopDemandVisualOne';
 import ShopDemandVisualTwo from './ShopDemandVisualTwo';
 import ShopDemandVisualThree from './ShopDemandVisualThree';
+import ShopDemandVisualFour from './ShopDemandVisualFour';
+import ShopDemandVisualFive from './ShopDemandVisualFive';
 
 
 const ViewDemand = () => {
@@ -55,6 +57,14 @@ const ViewDemand = () => {
 
       <div style={{ transform: 'translateX(55%) translateY(-110%)' , width:'fitContent' , height:'fitContent' }}>
         <ShopDemandVisualThree/>
+      </div>
+
+      <div style={{ transform: 'translateX(0%) translateY(-90%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualFour/>
+      </div>
+
+      <div style={{ transform: 'translateX(110%) translateY(-190%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualFive/>
       </div>
 
 

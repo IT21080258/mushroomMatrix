@@ -78,7 +78,7 @@ const ShopDemandVisualThree = () => {
   
   // State variables for current and predicted values
   const [currentValues, setCurrentValues] = useState(Array(7).fill(0));
-  const [predictValues, setPredictValues] = useState(Array(7).fill(0));
+  const [followingValues, setFollowingValues] = useState(Array(7).fill(0));
   
   // State to track loading status
   const [loading, setLoading] = useState(true);
@@ -91,10 +91,10 @@ const ShopDemandVisualThree = () => {
         const data = await response.json();
         
         const currentSales = data.map(item => item.cy_yearly_sales).reverse();
-        const predictedSales = data.map(item => item.fy_yearly_sales).reverse();
+        const followingSales = data.map(item => item.fy_yearly_sales).reverse();
         
         setCurrentValues(currentSales);
-        setPredictValues(predictedSales);
+        setFollowingValues(followingSales);
       } catch (error) {
         console.error("Error fetching sales data:", error);
       } finally {
@@ -135,7 +135,7 @@ const ShopDemandVisualThree = () => {
             },
             {
               type: 'line',
-              data: predictValues,
+              data: followingValues,
               yAxisId: 'right_axis_id',
             },
           ]}

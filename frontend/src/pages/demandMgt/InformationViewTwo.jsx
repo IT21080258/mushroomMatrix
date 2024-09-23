@@ -11,7 +11,7 @@ const InformationViewTwo = () => {
    },
    {
       detail_id: '1',
-      detail_name: 'Predicted Value',
+      detail_name: 'Following Value',
    }
   ];
   

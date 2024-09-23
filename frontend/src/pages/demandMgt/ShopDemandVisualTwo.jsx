@@ -7,9 +7,9 @@ import Box from '@mui/material/Box';
 const ShopDemandVisualTwo = () => {
   // State for daily and monthly sales values
   const [salesData, setSalesData] = useState(Array(7).fill({
-    currentDailyValue: 0,
-    currentValue: 0,
-    predictValue: 0,
+    currentDailyValue: null,
+    currentValue: null,
+    followingValue: null,
   }));
 
   // State to track loading status
@@ -25,7 +25,7 @@ const ShopDemandVisualTwo = () => {
         // Map the fetched data to our state structure
         const formattedData = data.map(item => ({
           currentValue: item.cy_monthly_sales,
-          predictValue: item.fy_monthly_sales,
+          followingValue: item.fy_monthly_sales,
         })).reverse();
         
         setSalesData(formattedData);
@@ -43,7 +43,7 @@ const ShopDemandVisualTwo = () => {
   const chartData = salesData.map((sales, index) => ({
     id: index + 1,
     cy_monthly_sales: sales.currentValue,
-    fy_monthly_sales: sales.predictValue,
+    fy_monthly_sales: sales.followingValue,
   }));
 
   return (
@@ -72,7 +72,7 @@ const ShopDemandVisualTwo = () => {
               data: chartData.map(v => ({ x: v.id, y: v.cy_monthly_sales, id: v.id })),
             },
             {
-              label: 'Predicted Value',
+              label: 'Following Value',
               data: chartData.map(v => ({ x: v.id, y: v.fy_monthly_sales, id: v.id })),
             },
           ]}

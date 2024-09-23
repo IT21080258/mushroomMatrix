@@ -5,9 +5,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const ShopDemandVisualOne = () => {
-  // State for current and predicted values
+  // State for current and following values
   const [currentValues, setCurrentValues] = useState(Array(7).fill(null));
-  const [predictedValues, setPredictedValues] = useState(Array(7).fill(null));
+  const [followingValues, setFollowingValues] = useState(Array(7).fill(null));
   
   // State to track loading status
   const [loading, setLoading] = useState(true);
@@ -21,10 +21,10 @@ const ShopDemandVisualOne = () => {
         
         // Update state with fetched data in reverse order
         const current = data.map(item => item.c_daily_sales).reverse();
-        const predicted = data.map(item => item.fy_daily_sales).reverse();
+        const following = data.map(item => item.fy_daily_sales).reverse();
 
         setCurrentValues(current);
-        setPredictedValues(predicted);
+        setFollowingValues(following);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -63,7 +63,7 @@ const ShopDemandVisualOne = () => {
             },
             {
               name: 'Series 2 - Predicted',
-              data: predictedValues,
+              data: followingValues,
             },
           ]}
           width={500}
