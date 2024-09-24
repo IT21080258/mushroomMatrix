@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography, CircularProgress, Box } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 
-const ShopDemandVisualFive = () => {
+const ShopDemandVisualTen = () => {
   // State variables for yearly sales
   const [currentValueYearly, setCurrentValueYearly] = useState(null);
   const [followingValueYearly, setFollowingValueYearly] = useState(null);
@@ -14,7 +14,7 @@ const ShopDemandVisualFive = () => {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        const response = await fetch("/get_predict_shop_demand_aom");
+        const response = await fetch("/get_predict_shop_demand_am");
         const data = await response.json();
         
         // Update state with fetched data
@@ -31,14 +31,14 @@ const ShopDemandVisualFive = () => {
   }, []); // Dependency array ensures this runs once on mount
 
   const yearlyData = [
-    { label: 'Current Year Yearly Sales (AOM)', value: currentValueYearly },
-    { label: 'Following Year Yearly Sales (AOM)', value: followingValueYearly }
+    { label: 'Current Year Yearly Sales (AM)', value: currentValueYearly },
+    { label: 'Following Year Yearly Sales (AM)', value: followingValueYearly }
   ];
 
   return (
     <Container sx={{ bgcolor: '#E0DDDC', color: 'black', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
-        Latest Yearly Sales Summary (AOM)
+        Latest Yearly Sales Summary (AM)
       </Typography>
 
       {loading ? (
@@ -73,4 +73,4 @@ const ShopDemandVisualFive = () => {
   );
 }
 
-export default ShopDemandVisualFive;
+export default ShopDemandVisualTen;

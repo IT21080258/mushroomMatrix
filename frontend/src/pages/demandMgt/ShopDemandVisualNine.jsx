@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography, CircularProgress, Box } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 
-const ShopDemandVisualFour = () => {
+const ShopDemandVisualNine = () => {
   // State variables for daily and monthly sales
   const [currentValueDaily, setCurrentValueDaily] = useState(null);
   const [followingValueDaily, setFollowingValueDaily] = useState(null);
@@ -16,7 +16,7 @@ const ShopDemandVisualFour = () => {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        const response = await fetch("/get_predict_shop_demand_aom");
+        const response = await fetch("/get_predict_shop_demand_am");
         const data = await response.json();
         
         // Update state with fetched data
@@ -36,19 +36,19 @@ const ShopDemandVisualFour = () => {
 
   // Data for PieChart
   const dailyData = [
-    { label: 'Current Year Daily Sales (AOM)', value: currentValueDaily },
-    { label: 'Following Year Daily Sales (AOM)', value: followingValueDaily },
+    { label: 'Current Year Daily Sales (AM)', value: currentValueDaily },
+    { label: 'Following Year Daily Sales (AM)', value: followingValueDaily },
   ];
 
   const monthlyData = [
-    { label: 'Current Year Monthly Sales (AOM)', value: currentValueMonthly },
-    { label: 'Following Year Monthly Sales (AOM)', value: followingValueMonthly },
+    { label: 'Current Year Monthly Sales (AM)', value: currentValueMonthly },
+    { label: 'Following Year Monthly Sales (AM)', value: followingValueMonthly },
   ];
 
   return (
     <Container sx={{ bgcolor: '#E0DDDC', color: 'black', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
-        Latest Daily And Monthly Sales Summary (AOM)
+        Latest Daily And Monthly Sales Summary (AM)
       </Typography>
       
       {loading ? (
@@ -89,4 +89,4 @@ const ShopDemandVisualFour = () => {
   );
 }
 
-export default ShopDemandVisualFour;
+export default ShopDemandVisualNine;

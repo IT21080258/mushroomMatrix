@@ -11,6 +11,11 @@ import ShopDemandVisualTwo from './ShopDemandVisualTwo';
 import ShopDemandVisualThree from './ShopDemandVisualThree';
 import ShopDemandVisualFour from './ShopDemandVisualFour';
 import ShopDemandVisualFive from './ShopDemandVisualFive';
+import ShopDemandVisualSix from './ShopDemandVisualSix';
+import ShopDemandVisualSeven from './ShopDemandVisualSeven';
+import ShopDemandVisualEight from './ShopDemandVisualEight';
+import ShopDemandVisualNine from './ShopDemandVisualNine';
+import ShopDemandVisualTen from './ShopDemandVisualTen';
 
 
 const ViewDemand = () => {
@@ -60,12 +65,40 @@ const ViewDemand = () => {
       </div>
 
       <div style={{ transform: 'translateX(0%) translateY(-90%)' , width:'fitContent' , height:'fitContent' }}>
-        <ShopDemandVisualFour endpointString = "/get_predict_shop_demand_am" />
+        <ShopDemandVisualFour/>
       </div>
 
       <div style={{ transform: 'translateX(110%) translateY(-190%)' , width:'fitContent' , height:'fitContent' }}>
-        <ShopDemandVisualFive endpointString = "/get_predict_shop_demand_am" />
+        <ShopDemandVisualFive/>
       </div>
+
+      <div style={{ transform: 'translateX(0%) translateY(-175%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualSix/>
+      </div>
+
+      <div style={{ transform: 'translateX(110%) translateY(-275%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualSeven/>
+      </div>
+
+      <div style={{ transform: 'translateX(55%) translateY(-260%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualEight/>
+      </div>
+
+      <div style={{ transform: 'translateX(0%) translateY(-245%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualNine/>
+      </div>
+
+      <div style={{ transform: 'translateX(110%) translateY(-345%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualTen/>
+      </div>
+
+      {/*
+
+      <div style={{ transform: 'translateX(0%) translateY(0%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualTen/>
+      </div>
+
+      */}
 
 
 
