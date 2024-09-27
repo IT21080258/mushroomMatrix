@@ -16,6 +16,10 @@ import ShopDemandVisualSeven from './ShopDemandVisualSeven';
 import ShopDemandVisualEight from './ShopDemandVisualEight';
 import ShopDemandVisualNine from './ShopDemandVisualNine';
 import ShopDemandVisualTen from './ShopDemandVisualTen';
+import DeleteCustomerData from './DeleteCustomerData';
+import DeleteShopDataAom from './DeleteShopDataAom';
+import DeletionHeading from './DeletionHeading';
+import DeleteShopDataAm from './DeleteShopDataAm';
 
 
 const ViewDemand = () => {
@@ -92,15 +96,21 @@ const ViewDemand = () => {
         <ShopDemandVisualTen/>
       </div>
 
-      {/*
-
-      <div style={{ transform: 'translateX(0%) translateY(0%)' , width:'fitContent' , height:'fitContent' }}>
-        <ShopDemandVisualTen/>
+      <div style={{ transform: 'translateX(75%) translateY(-2100%)' , width:'fitContent' , height:'fitContent' }}>
+        <DeletionHeading/>
       </div>
 
-      */}
+      <div style={{ transform: 'translateX(0%) translateY(-550%)' , width:'fitContent' , height:'fitContent' }}>
+        <DeleteCustomerData/>
+      </div>
 
+      <div style={{ transform: 'translateX(110%) translateY(-650%)' , width:'fitContent' , height:'fitContent' }}>
+        <DeleteShopDataAom/>
+      </div>
 
+      <div style={{ transform: 'translateX(50%) translateY(-620%)' , width:'fitContent' , height:'fitContent' }}>
+        <DeleteShopDataAm/>
+      </div>
 
     </div>
 
