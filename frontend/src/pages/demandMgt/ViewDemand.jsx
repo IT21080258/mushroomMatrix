@@ -20,6 +20,9 @@ import DeleteCustomerData from './DeleteCustomerData';
 import DeleteShopDataAom from './DeleteShopDataAom';
 import DeletionHeading from './DeletionHeading';
 import DeleteShopDataAm from './DeleteShopDataAm';
+import ShopDemandHeadingTwo from './ShopDemandHeadingTwo';
+import ShopDemandVisualEleven from './ShopDemandVisualEleven';
+import ShopDemandVisualTwelve from './ShopDemandVisualTwelve';
 
 
 const ViewDemand = () => {
@@ -44,7 +47,7 @@ const ViewDemand = () => {
         <CustomerDemandForm/>
       </div>
 
-      <div style={{ transform: 'translateX(80%) translateY(-140%)' , width:'fitContent' , height:'fitContent' }}>
+      <div style={{ transform: 'translateX(70%) translateY(-140%)' , width:'fitContent' , height:'fitContent' }}>
         <ShopDemandHeadingOne/>
       </div>
 
@@ -111,6 +114,20 @@ const ViewDemand = () => {
       <div style={{ transform: 'translateX(50%) translateY(-620%)' , width:'fitContent' , height:'fitContent' }}>
         <DeleteShopDataAm/>
       </div>
+
+      <div style={{ transform: 'translateX(70%) translateY(-2000%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandHeadingTwo/>
+      </div>
+
+      <div style={{ transform: 'translateX(0%) translateY(-280%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualEleven/>
+      </div>
+
+      <div style={{ transform: 'translateX(110%) translateY(-380%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualTwelve/>
+      </div>
+
+      
 
     </div>
 
