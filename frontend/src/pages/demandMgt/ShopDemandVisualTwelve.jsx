@@ -14,7 +14,7 @@ const ShopDemandVisualTwelve = () => {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        const response = await fetch("/get_predict_shop_demand_am");
+        const response = await fetch("/get_predict_shop_demand_district_am");
         const data = await response.json();
         
         // Map the fetched data to our state structure
@@ -22,7 +22,7 @@ const ShopDemandVisualTwelve = () => {
           districtName: item.district_name,
           currentMonthlyValue: item.cy_monthly_sales,
           currentYearlyValue: item.cy_yearly_sales,
-        })).reverse();
+        }));
         
         setSalesData(formattedData);
       } catch (error) {
@@ -53,7 +53,7 @@ const ShopDemandVisualTwelve = () => {
   return (
     <Container sx={{ bgcolor: '#E0DDDC', color: 'black', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
-        District Wise Sales (AM)
+        Current Year District Wise Sales (AM)
       </Typography>
 
       {loading ? (
@@ -91,4 +91,4 @@ const ShopDemandVisualTwelve = () => {
 }
 
 
-export default ShopDemandVisualTwelve
+export default ShopDemandVisualTwelve;
