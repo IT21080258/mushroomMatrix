@@ -73,8 +73,8 @@ const ShopDemandVisualEleven = () => {
         <BarChart
           dataset={salesData} // Updated to salesData
           series={addLabels([
-            { dataKey: 'currentMonthlyValue', stack: 'stk1' },
-            { dataKey: 'currentYearlyValue', stack: 'stk1' }
+            { dataKey: 'currentYearlyValue', stack: 'stk1' },
+            { dataKey: 'currentMonthlyValue', stack: 'stk1' }
           ])}
           xAxis={[{
             scaleType: 'band',

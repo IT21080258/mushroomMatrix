@@ -23,6 +23,8 @@ import DeleteShopDataAm from './DeleteShopDataAm';
 import ShopDemandHeadingTwo from './ShopDemandHeadingTwo';
 import ShopDemandVisualEleven from './ShopDemandVisualEleven';
 import ShopDemandVisualTwelve from './ShopDemandVisualTwelve';
+import ShopDemandVisualThirteen from './ShopDemandVisualThirteen';
+import ShopDemandVisualFourteen from './ShopDemandVisualFourteen';
 
 
 const ViewDemand = () => {
@@ -127,7 +129,13 @@ const ViewDemand = () => {
         <ShopDemandVisualTwelve/>
       </div>
 
-      
+      <div style={{ transform: 'translateX(0%) translateY(-358%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualThirteen/>
+      </div>
+
+      <div style={{ transform: 'translateX(110%) translateY(-458%)' , width:'fitContent' , height:'fitContent' }}>
+        <ShopDemandVisualFourteen/>
+      </div>
 
     </div>
 

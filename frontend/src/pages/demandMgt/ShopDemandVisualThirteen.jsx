@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { Container, Typography, CircularProgress, Box } from '@mui/material';
 
-const ShopDemandVisualTwelve = () => {
+const ShopDemandVisualThirteen = () => {
   const [salesData, setSalesData] = useState(Array(7).fill({
     districtName: null,
-    currentMonthlyValue: null,
-    currentYearlyValue: null,
+    currentDailyValue: null,
+    followingDailyValue: null,
   }));
   const [loading, setLoading] = useState(true); // State for loading
 
@@ -14,14 +14,14 @@ const ShopDemandVisualTwelve = () => {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        const response = await fetch("/get_predict_shop_demand_district_am");
+        const response = await fetch("/get_predict_shop_demand_district_aom");
         const data = await response.json();
         
         // Map the fetched data to our state structure
         const formattedData = data.map((item) => ({
           districtName: item.district_name,
-          currentMonthlyValue: item.cy_monthly_sales,
-          currentYearlyValue: item.cy_yearly_sales,
+          currentDailyValue: item.c_daily_sales,
+          followingDailyValue: item.fy_daily_sales,
         }));
         
         setSalesData(formattedData);
@@ -37,8 +37,8 @@ const ShopDemandVisualTwelve = () => {
   
   // Translations for labels
   const translations = {
-    currentMonthlyValue: 'Current Year Monthly Sales',
-    currentYearlyValue: 'Current Year Yearly Sales'
+    currentDailyValue: 'Current Year Daily Sales',
+    followingDailyValue: 'Following Year Daily Sales'
   };
 
   // Function to add labels to the series
@@ -53,7 +53,7 @@ const ShopDemandVisualTwelve = () => {
   return (
     <Container sx={{ bgcolor: '#E0DDDC', color: 'black', borderRadius: '16px', padding: '16px' }}>
       <Typography variant="h6" color="black">
-        Current Year District Wise Sales (AM)
+        District Wise Daily Sales (AOM)
       </Typography>
 
       {loading ? (
@@ -72,8 +72,8 @@ const ShopDemandVisualTwelve = () => {
         <BarChart
           dataset={salesData} // Updated to salesData
           series={addLabels([
-            { dataKey: 'currentYearlyValue', stack: 'stk1' },
-            { dataKey: 'currentMonthlyValue', stack: 'stk1' }
+            { dataKey: 'followingDailyValue', stack: 'stk1' },
+            { dataKey: 'currentDailyValue', stack: 'stk1' }
           ])}
           xAxis={[{
             scaleType: 'band',
@@ -90,5 +90,4 @@ const ShopDemandVisualTwelve = () => {
   );
 }
 
-
-export default ShopDemandVisualTwelve;
+export default ShopDemandVisualThirteen;
