@@ -5,7 +5,7 @@ const ShopDemandHeadingOne = () => {
   return (
 
     <Typography variant="h3">
-        Shop Details
+        Shop Details - 01
     </Typography>
     
   )
