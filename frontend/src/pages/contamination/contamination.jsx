@@ -13,10 +13,59 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useState } from 'react';
+import app from './firebase';
+import { getDownloadURL, getStorage,ref, uploadBytes } from 'firebase/storage';
 
 
 const IdentifyContamination = () =>  {
-
+    const [uploding,setUploading] = useState(false);
+    const [imageURL,setImageURL] = useState(false);
+    const [inputValue, setInputValue] = React.useState('');
+    const [inputValue1, setInputValue1] = React.useState('');
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+      };
+      const handleChange2 = (event) => {
+        setInputValue1(event.target.value);
+      };
+    async function handleI(e) {
+        console.log(e.target.files[0]);
+        const image = e.target.files[0];
+        if (image){
+          try{
+            setUploading(true);
+            const storage = getStorage(app)
+            const storageRef = ref(storage,"images/"+image.name);
+            await uploadBytes(storageRef,image);
+            const downloadURL = await getDownloadURL(storageRef);
+            console.log(downloadURL);
+            setImageURL(downloadURL);
+          }catch (error){
+            console.log(error);
+    
+          }finally{
+            setUploading(false);
+          }
+          
+    
+        }
+      }
+      async function upLoadImages(){
+        const respond = await fetch("http://Localhost:8070/product",{
+          method: "POST",
+          headers: {
+            "Content-Type":"application/json",
+    
+          },
+          body:JSON.stringify({image:imageURL,Growshed_Code:inputValue,Rank_Number:inputValue1,Contaminated:"?"})
+        });
+        if(respond){
+          const data = await respond.json();
+          console.log(data);
+        }
+       
+      }
     function createData(Date, growShed, rackNumber, isContaminated) {
         return {Date, growShed, rackNumber, isContaminated};
       }
@@ -37,7 +86,7 @@ return(
         </div>
         <div>
             <form style={{width:'400px'}}>
-            <TextField 
+            {/* <TextField 
                 // onChange={(e) => setCode(e.target.value)}
                 label="Date" 
                 variant="outlined" 
@@ -45,7 +94,7 @@ return(
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
-            />
+            /> */}
             <TextField 
                 // onChange={(e) => setCode(e.target.value)}
                 label="Growshed Code" 
@@ -54,6 +103,8 @@ return(
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
+                value={inputValue}
+                onChange={handleChange}
             />            
             <TextField 
                 // onChange={(e) => setCode(e.target.value)}
@@ -63,6 +114,8 @@ return(
                 fullWidth
                 required
                 style={{margin: '8px 0px 0px', width:'200px'}}
+                value={inputValue1}
+                onChange={handleChange2}
             />
             <input
                 accept="image/*"
@@ -70,16 +123,17 @@ return(
                 multiple
                 type="file"
                 style={{ display: 'none' }}
+                onChange={handleI}
             />
             <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span" style={{Margin:'30px 0px 0px', width: '400px'}}>
+                <Button  variant="contained" component="span" style={{Margin:'30px 0px 0px', width: '400px'}}>
                    Add Image
                 </Button>
             </label>
-            <Button variant="contained" style={{Margin:'30px 0px 0px',
+            <Button onClick={upLoadImages} variant="contained" disabled={uploding} style={{Margin:'30px 0px 0px',
                                                 width: '400px'                        
                                                                         }}>
-            Submit
+            {uploding ? "Uploading" : "Upload Image"}
             </Button>
 
             </form>
