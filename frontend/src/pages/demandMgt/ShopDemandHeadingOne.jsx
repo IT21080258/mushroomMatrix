@@ -1,13 +1,19 @@
 import React from 'react';
-import { Typography } from "@mui/material";
+import { Typography,Divider,Box } from "@mui/material";
 
 const ShopDemandHeadingOne = () => {
   return (
 
-    <Typography variant="h3">
-        Shop Details - 01
+    <Box sx={{ textAlign: 'left' }}>
+    <Typography variant="h4" sx={{ 
+      fontWeight: 600, 
+      color: 'primary.main',
+     
+    }}>
+      Shop Details - 01
     </Typography>
-    
+    <Divider sx={{ mb: 4 }} />
+  </Box>
   )
 }
 

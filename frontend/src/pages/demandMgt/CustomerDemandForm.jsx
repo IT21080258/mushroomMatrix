@@ -68,9 +68,9 @@ const CustomerDemandForm = () => {
   };
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px', width: '550px', height: '400px', padding: '16px' }} fixed>
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px',  padding: '16px',justifyContent:'left' }} fixed>
       <Box component="form" onSubmit={handleSubmit}>
-        <Box sx={{ m: 4 }}>
+        <Box sx={{ m: 4, }}>
           <FormControl fullWidth>
             <InputLabel id="district-select-label">District</InputLabel>
             <Select
@@ -107,7 +107,7 @@ const CustomerDemandForm = () => {
           </Button>
         </Box>
       </Box>
-    </Container>
+  </Container>
   );
 };
 

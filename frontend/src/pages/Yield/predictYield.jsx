@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
-import Grid from '@mui/material/Grid2';
-import Typography from '@mui/material/Typography';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
+import {
+  Box,
+  Grid,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+  CircularProgress,
+  Alert,
+  IconButton,
+  Card,
+  CardContent,
+  Divider,
+  Container
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 
@@ -97,7 +104,7 @@ const PredictYield = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/yield/predict", roundedFormData);
+      const response = await axios.post("http://localhost:4050/yield/predict", roundedFormData);
       setPrediction(response.data.prediction);
 
       const payload = {
@@ -143,154 +150,223 @@ const PredictYield = () => {
     }
   };
 
-  return (
-    <Grid>
-      <div>
-        <Typography variant="h3">Yield</Typography><br />
-        <hr />
-      </div>
-      <div>
-        <form style={{ width: '400px' }} onSubmit={handleSubmit}>
-          <TextField
-            onChange={handleChange}
-            label="No of Pots"
-            variant="outlined"
-            color="secondary"
-            name="Noofpots"
-            value={formData.Noofpots}
-            fullWidth
-            required
-            error={!!errors.Noofpots}
-            helperText={errors.Noofpots}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="Temperature Inside"
-            variant="outlined"
-            color="secondary"
-            name="TempInside"
-            value={formData.TempInside}
-            fullWidth
-            required
-            error={!!errors.TempInside}
-            helperText={errors.TempInside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="CO2 Inside"
-            variant="outlined"
-            color="secondary"
-            name="CO2Inside"
-            value={formData.CO2Inside}
-            fullWidth
-            required
-            error={!!errors.CO2Inside}
-            helperText={errors.CO2Inside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="Humidity Inside"
-            variant="outlined"
-            color="secondary"
-            name="HumidInside"
-            value={formData.HumidInside}
-            fullWidth
-            required
-            error={!!errors.HumidInside}
-            helperText={errors.HumidInside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="Temperature Outside"
-            variant="outlined"
-            color="secondary"
-            name="TempOutside"
-            value={formData.TempOutside}
-            fullWidth
-            required
-            error={!!errors.TempOutside}
-            helperText={errors.TempOutside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="CO2 Outside"
-            variant="outlined"
-            color="secondary"
-            name="CO2Outside"
-            value={formData.CO2Outside}
-            fullWidth
-            required
-            error={!!errors.CO2Outside}
-            helperText={errors.CO2Outside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <TextField
-            onChange={handleChange}
-            label="Humidity Outside"
-            variant="outlined"
-            color="secondary"
-            name="HumidOutside"
-            value={formData.HumidOutside}
-            fullWidth
-            required
-            error={!!errors.HumidOutside}
-            helperText={errors.HumidOutside}
-            style={{ margin: '8px 0px 0px', width: '200px' }}
-          />
-          <Button variant="contained" style={{ margin: '30px 0px 0px', width: '400px' }} type="submit">
-            {loading ? <CircularProgress size={24} /> : "Submit"}
-          </Button>
-        </form>
-        {prediction && (
-          <Alert severity="success">{`Prediction: ${prediction}`}</Alert>
-        )}
-      </div><br />
-      <hr />
+  const textFieldProps = {
+    variant: "outlined",
+    color: "primary",
+    fullWidth: true,
+    required: true,
+    sx: {
+      '& .MuiOutlinedInput-root': {
+        '&:hover fieldset': {
+          borderColor: 'primary.main',
+        },
+      },
+      mb: 2
+    }
+  };
 
-      <Grid xs={12}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table" style={{ width: '100%' }}>
-            <TableHead>
-              <TableRow>
-                <TableCell align="right">No of Pots</TableCell>
-                <TableCell align="right">Temp Inside</TableCell>
-                <TableCell align="right">CO2 Inside</TableCell>
-                <TableCell align="right">Humidity Inside</TableCell>
-                <TableCell align="right">Temp Outside</TableCell>
-                <TableCell align="right">CO2 Outside</TableCell>
-                <TableCell align="right">Humidity Outside</TableCell>
-                <TableCell align="right">Yield</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableData.map((row) => (
-                <TableRow key={row._id}>
-                  <TableCell align="right">{row.Noofpots}</TableCell>
-                  <TableCell align="right">{row.TempInside}</TableCell>
-                  <TableCell align="right">{row.CO2Inside}</TableCell>
-                  <TableCell align="right">{row.HumidInside}</TableCell>
-                  <TableCell align="right">{row.TempOutside}</TableCell>
-                  <TableCell align="right">{row.CO2Outside}</TableCell>
-                  <TableCell align="right">{row.HumidOutside}</TableCell>
-                  <TableCell align="right">{row.Yield}</TableCell>
-                  <TableCell align="right">
-                    <IconButton aria-label="delete" onClick={() => handleDelete(row._id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-    </Grid>
+  return (
+    <Container maxWidth="xl">
+      <Box sx={{ py: 3 }}>
+        {/* Header */}
+        <Box sx={{ textAlign: 'left', mb: 4 }}>
+          <Typography variant="h4" sx={{ 
+            fontWeight: 600, 
+            color: 'primary.main',
+            mb: 1 
+          }}>
+            Yield Prediction
+          </Typography>
+          <Divider sx={{ mb: 4 }} />
+        </Box>
+
+        {/* Form Card */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Card elevation={3} sx={{ maxWidth: '700px' }}>
+            <CardContent sx={{ p: 3 }}>
+              <form onSubmit={handleSubmit}>
+                <Box sx={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' }, 
+                  gap: 2,
+                  mb: 2 
+                }}>
+                  <Box>
+                   
+                    <TextField
+                    {...textFieldProps}
+                    label="No of Pots"
+                    name="Noofpots"
+                    value={formData.Noofpots}
+                    onChange={handleChange}
+                    error={!!errors.Noofpots}
+                    helperText={errors.Noofpots}
+                  />
+                    <TextField
+                      {...textFieldProps}
+                      label="Temperature Inside"
+                      name="TempInside"
+                      value={formData.TempInside}
+                      onChange={handleChange}
+                      error={!!errors.TempInside}
+                      helperText={errors.TempInside}
+                    />
+                    <TextField
+                      {...textFieldProps}
+                      label="CO2 Inside"
+                      name="CO2Inside"
+                      value={formData.CO2Inside}
+                      onChange={handleChange}
+                      error={!!errors.CO2Inside}
+                      helperText={errors.CO2Inside}
+                    />
+                    <TextField
+                      {...textFieldProps}
+                      label="Humidity Inside"
+                      name="HumidInside"
+                      value={formData.HumidInside}
+                      onChange={handleChange}
+                      error={!!errors.HumidInside}
+                      helperText={errors.HumidInside}
+                    />
+                  </Box>
+
+                  {/* Outside Parameters */}
+                  <Box>
+                 
+                    <TextField
+                      {...textFieldProps}
+                      label="Temperature Outside"
+                      name="TempOutside"
+                      value={formData.TempOutside}
+                      onChange={handleChange}
+                      error={!!errors.TempOutside}
+                      helperText={errors.TempOutside}
+                    />
+                    <TextField
+                      {...textFieldProps}
+                      label="CO2 Outside"
+                      name="CO2Outside"
+                      value={formData.CO2Outside}
+                      onChange={handleChange}
+                      error={!!errors.CO2Outside}
+                      helperText={errors.CO2Outside}
+                    />
+                    <TextField
+                      {...textFieldProps}
+                      label="Humidity Outside"
+                      name="HumidOutside"
+                      value={formData.HumidOutside}
+                      onChange={handleChange}
+                      error={!!errors.HumidOutside}
+                      helperText={errors.HumidOutside}
+                    />
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button 
+                    variant="contained" 
+                    type="submit"
+                    sx={{
+                      py: 1.5,
+                      px: 4,
+                      mt: 2,
+                      bgcolor: 'primary.main',
+                      '&:hover': {
+                        bgcolor: 'primary.dark',
+                      }
+                    }}
+                    disabled={loading}
+                  >
+                    {loading ? <CircularProgress size={24} /> : "Predict Yield"}
+                  </Button>
+                </Box>
+              </form>
+
+              {prediction && (
+                <Alert 
+                  severity="success" 
+                  sx={{ 
+                    mt: 3,
+                    '& .MuiAlert-message': { 
+                      fontWeight: 500 
+                    }
+                  }}
+                >
+                  Predicted Yield: {prediction}
+                </Alert>
+              )}
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Table Card */}
+        <Card elevation={3}>
+          <CardContent sx={{ p: 3 }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
+              Historical Predictions
+            </Typography>
+            
+            <TableContainer component={Paper} sx={{ 
+              boxShadow: 'none',
+              bgcolor: 'background.default' 
+            }}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow sx={{ bgcolor: 'grey.50' }}>
+                    <TableCell sx={{ fontWeight: 600 }}>No of Pots</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>Temp Inside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>CO2 Inside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>Humidity Inside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>Temp Outside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>CO2 Outside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>Humidity Outside</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>Yield</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tableData.map((row) => (
+                    <TableRow 
+                      key={row._id}
+                      sx={{ 
+                        '&:hover': { 
+                          bgcolor: 'action.hover' 
+                        }
+                      }}
+                    >
+                      <TableCell>{row.Noofpots}</TableCell>
+                      <TableCell>{row.TempInside}</TableCell>
+                      <TableCell>{row.CO2Inside}</TableCell>
+                      <TableCell>{row.HumidInside}</TableCell>
+                      <TableCell>{row.TempOutside}</TableCell>
+                      <TableCell>{row.CO2Outside}</TableCell>
+                      <TableCell>{row.HumidOutside}</TableCell>
+                      <TableCell sx={{ fontWeight: 500 }}>{row.Yield}</TableCell>
+                      <TableCell>
+                        <IconButton 
+                          onClick={() => handleDelete(row._id)}
+                          size="small"
+                          sx={{ 
+                            color: 'error.main',
+                            '&:hover': { 
+                              bgcolor: 'error.lighter' 
+                            }
+                          }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 

@@ -101,7 +101,7 @@ const ShopDemandForm = () => {
   };
 
   return (
-    <Container sx={{ bgcolor: '#E0DDDC', color: '#000', borderRadius: '16px', width: '550px', height: '500px', padding: '16px' }} fixed>
+    <Container sx={{ bgcolor: '#E0DDDC', color: 'white', borderRadius: '16px',  padding: '16px',justifyContent:'left' }} fixed>
       <Box component="form" onSubmit={handleSubmit}>
         <Box sx={{ m: 4 }}>
           <FormControl fullWidth>
